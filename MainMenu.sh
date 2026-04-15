@@ -11,7 +11,7 @@ select option in "${options[@]}"
 do
 	case $option in 
 		"Manage Students")
-		
+		Student_Management_Menu
 			;;
 		"Manage Subjects")
 		
