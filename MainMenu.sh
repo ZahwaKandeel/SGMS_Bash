@@ -1,7 +1,7 @@
 #! /usr/bin/bash
 
 source ./StudentManagement.sh
-
+source ./GradeManagement.sh
 
 echo Main Menu:
 
@@ -14,7 +14,7 @@ do
 		Student_Management_Menu
 			;;
 		"Manage Subjects")
-		
+		Grade_Management_Menu
 			;;
 		"Manage Grades")
 			
