@@ -1,0 +1,30 @@
+#! /usr/bin/bash
+
+declare -a arr=("Add Subject" "List Subjects" "Update Subject" "Delete Subject" "Exit")
+select choice in "${arr[@]}"
+do
+	case $choice in 
+"Add Subject")
+	add_subject
+	;;
+"List Subjects")
+	list_subjects
+	;;
+"Update Subject")
+	update_subject
+	;;
+"Delete Subject")
+	delete_subject
+	;;
+"Exit")
+	break
+	;;
+*)
+	echo Invalid Choice
+	;;
+esac
+done
+
+
+
+
