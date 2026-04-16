@@ -67,8 +67,8 @@ else
 fi
 }
 
-
-declare -a arr=("Add Subject" "List Subjects" "Update Subject" "Delete Subject" "Exit")
+Subject_Management_Menu(){
+declare -a arr=("Add Subject" "List Subjects" "Update Subject" "Delete Subject" "Back to main menu")
 select choice in "${arr[@]}"
 do
 	case $choice in 
@@ -84,7 +84,7 @@ do
 "Delete Subject")
 	delete_subject
 	;;
-"Exit")
+"Back to main menu")
 	break
 	;;
 *)
@@ -92,6 +92,7 @@ do
 	;;
 esac
 done
+}
 
 
 
