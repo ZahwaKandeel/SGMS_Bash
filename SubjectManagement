@@ -57,6 +57,17 @@ echo $subCredits >> $subCode.sub
 cd ../..
 }
 
+list_subjects(){
+if [ "$(ls -A sgms_data/subjects)" ]
+then
+	echo "These are all subjects"
+	ls -A sgms_data/subjects
+else
+	echo "There are no subjects"
+fi
+}
+
+
 declare -a arr=("Add Subject" "List Subjects" "Update Subject" "Delete Subject" "Exit")
 select choice in "${arr[@]}"
 do
