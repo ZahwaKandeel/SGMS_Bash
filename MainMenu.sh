@@ -14,10 +14,10 @@ do
 		Student_Management_Menu
 			;;
 		"Manage Subjects")
-		Grade_Management_Menu
+		
 			;;
 		"Manage Grades")
-			
+		Grade_Management_Menu
 			;;
 		"Reports & Statistics")
 			
