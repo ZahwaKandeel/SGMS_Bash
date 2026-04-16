@@ -1,5 +1,62 @@
 #! /usr/bin/bash
 
+add_subject(){
+cd sgms_data/subjects
+while true
+do
+	read -p "Enter subject code: " subCode
+	if [[ -z $subCode ]]
+	then
+	echo "You should enter a code"
+	continue
+	fi
+	if [[ ! $subCode =~ ^[A-Za-z]{2,5}[0-9]{2,4}$ ]]
+	then
+	echo "Subject code must be 2–5 letters + 2–4 digits"
+	continue
+	fi
+	if [[ -f $subCode.sub ]]
+	then
+	echo "This subject already exists"
+	continue
+	fi
+	break
+done
+
+while true
+do
+	read -p "Enter subject name: " subName
+	if [[ -z $subName ]]
+	then
+	echo "You should enter a name"
+	continue
+	fi
+	break
+done
+
+while true
+do
+	read -p "Enter subject credit hours: " subCredits
+	if [[ -z $subCredits ]]
+	then
+	echo "You should enter a credit hours"
+	continue
+	fi
+	if [[ ! $subCredits =~ ^[0-9]{1,6}$ ]]
+	then
+	echo "Subject credit hours must be 1-6 digits"
+	continue
+	fi
+	break
+done
+
+touch $subCode.sub
+echo $subCode >> $subCode.sub
+echo $subName >> $subCode.sub
+echo $subCredits >> $subCode.sub
+cd ../..
+}
+
 declare -a arr=("Add Subject" "List Subjects" "Update Subject" "Delete Subject" "Exit")
 select choice in "${arr[@]}"
 do
