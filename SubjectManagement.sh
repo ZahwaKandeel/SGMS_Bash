@@ -67,7 +67,7 @@ cd ../..
 echo "$subCode" >> sgms_data/subjects/$subCode.sub
 echo "$subName" >> sgms_data/subjects/$subCode.sub
 echo "$subCredits" >> sgms_data/subjects/$subCode.sub
->>>>>>> 066c327cef415176d3c73888e1df00cf6c4d2416
+echo "Subject file created successfully"
 }
 
 list_subjects(){
