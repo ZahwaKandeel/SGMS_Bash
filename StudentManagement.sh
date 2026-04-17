@@ -11,8 +11,8 @@ do
 		"Add Student")
 		 Add_Student
 			;;
-		"List Subjects")
-			
+		"List Students")
+		List_Students
 			;;
 		"Update Student")
 			
@@ -80,4 +80,14 @@ echo "Year=$studYear"
 } > "$file"
 
 echo "Student added successfully"
+}
+
+List_Students(){
+	if [ -d "sgms_data/students" ] && [ "$(ls -A sgms_data/students)" ]
+	then
+		ls  sgms_data/students
+		echo Thats all the students
+	else
+		echo There is no saved students
+	fi
 }
