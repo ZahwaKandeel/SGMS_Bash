@@ -62,9 +62,9 @@ done
 
 while true;do
 	read -p "Enter your academic year: " studYear
-		if [[ -z "$studYear" || ! "$studYear" =~ ^[1-6]$ ]];then
+	if [[ -z "$studYear" || ! "$studYear" =~ ^[1-6]$ ]];then
 		echo "Invalid Academic Year!"
-	continue
+		continue
 	fi
 	break
 done
