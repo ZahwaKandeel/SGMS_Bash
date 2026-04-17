@@ -41,15 +41,15 @@ do
 	echo "You should enter a credit hours"
 	continue
 	fi
-	if [[ ! $subCredits =~ ^[0-9]{1,6}$ ]]
+	if [[ ! $subCredits =~ ^[1-6]$ ]]
 	then
-	echo "Subject credit hours must be 1-6 digits"
+	echo "Subject credit hours must be a number from 1 to 6"
 	continue
 	fi
 	break
 done
 
-touch $subCode.sub
+touch sgms_data/subjects/$subCode.sub
 echo "$subCode" >> sgms_data/subjects/$subCode.sub
 echo "$subName" >> sgms_data/subjects/$subCode.sub
 echo "$subCredits" >> sgms_data/subjects/$subCode.sub
