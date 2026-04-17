@@ -1,7 +1,6 @@
 #! /usr/bin/bash
 
 add_subject(){
-cd sgms_data/subjects
 while true
 do
 	read -p "Enter subject code: " subCode
@@ -15,7 +14,7 @@ do
 	echo "Subject code must be 2–5 letters + 2–4 digits"
 	continue
 	fi
-	if [[ -f $subCode.sub ]]
+	if [[ -f sgms_data/subjects/$subCode.sub ]]
 	then
 	echo "This subject already exists"
 	continue
@@ -51,10 +50,9 @@ do
 done
 
 touch $subCode.sub
-echo $subCode >> $subCode.sub
-echo $subName >> $subCode.sub
-echo $subCredits >> $subCode.sub
-cd ../..
+echo "$subCode" >> sgms_data/subjects/$subCode.sub
+echo "$subName" >> sgms_data/subjects/$subCode.sub
+echo "$subCredits" >> sgms_data/subjects/$subCode.sub
 }
 
 list_subjects(){
@@ -65,6 +63,27 @@ then
 else
 	echo "There are no subjects"
 fi
+}
+
+delete_subject(){
+while true
+do 
+	read -p "Enter subject code you want to delete: " subCode
+	if [[ -z $subCode ]]
+	then
+	echo "You should enter a code"
+	continue
+	fi
+	if [[ ! -f sgms_data/subjects/$subCode.sub ]]
+	then
+	echo "This subject doesn't exist"
+	continue
+	fi
+	break
+done
+
+rm sgms_data/subjects/$subCode.sub
+echo "Subject deleted successfully"
 }
 
 Subject_Management_Menu(){
