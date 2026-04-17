@@ -9,7 +9,7 @@ select option in "${options[@]}"
 do
 	case $option in 
 		"Add Student")
-			
+		 Add_Student
 			;;
 		"List Subjects")
 			
@@ -26,4 +26,58 @@ do
 esac
 
 done
+}
+
+Add_Student(){
+while true;do
+	read -p "Enter your id: " studID
+	if [[ ! "$studID" =~ ^[0-9]{1,10}$ ]];then
+		echo "Student ID must be number"
+		continue
+	fi
+	if [[ -f "./sgms_data/students/$studID.stu" ]];then
+		echo "Student ID already exists"
+		continue
+	fi
+	break
+done
+	
+while true;do
+	read -p "Enter your full name: " studName
+	if [[ -z "$studName" || ! "$studName" =~ ^[A-Za-z]+([[:space:]][A-Za-z]+)*$ ]];then
+		echo "Invalid full name!"
+		continue
+	fi
+	break
+done
+
+while true;do
+	read -p "Enter your email: " studEmail
+	if [[ -z "$studEmail" || ! "$studEmail" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]];then
+		echo "Invalid email!"
+		continue
+	fi
+	break
+done
+
+while true;do
+	read -p "Enter your academic year: " studYear
+	if [[ -z "$studYear" || ! "$studYear" =~ ^[1-6]$ ]];then
+		echo "Invalid Academic Year!"
+		continue
+	fi
+	break
+done
+
+mkdir -p "./sgms_data/students"
+
+file="./sgms_data/students/$studID.stu"
+{
+echo "ID=$studID"
+echo "Name=$studName"
+echo "Email=$studEmail"
+echo "Year=$studYear"
+} > "$file"
+
+echo "Student added successfully"
 }
