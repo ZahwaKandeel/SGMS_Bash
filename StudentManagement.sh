@@ -92,10 +92,6 @@ List_Students(){
 	fi
 }
 
-Update_Student(){
-
-}
-
 Delete_Student(){
 while true;do
 	read -p "Enter student id you want to delete: " studID
