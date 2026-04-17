@@ -9,9 +9,9 @@ do
 	echo "You should enter a code"
 	continue
 	fi
-	if [[ ! $subCode =~ ^[A-Za-z]{2,5}[0-9]{2,4}$ ]]
+	if [[ ! $subCode =~ ^[A-Z]{2,5}[0-9]{2,4}$ ]]
 	then
-	echo "Subject code must be 2–5 letters + 2–4 digits"
+	echo "Subject code must be 2–5 uppercase letters + 2–4 digits"
 	continue
 	fi
 	if [[ -f sgms_data/subjects/$subCode.sub ]]
@@ -38,7 +38,7 @@ do
 	read -p "Enter subject credit hours: " subCredits
 	if [[ -z $subCredits ]]
 	then
-	echo "You should enter a credit hours"
+	echo "You should enter credit hours"
 	continue
 	fi
 	if [[ ! $subCredits =~ ^[1-6]$ ]]
@@ -49,8 +49,7 @@ do
 	break
 done
 
-touch sgms_data/subjects/$subCode.sub
-echo "$subCode" >> sgms_data/subjects/$subCode.sub
+echo "$subCode" > sgms_data/subjects/$subCode.sub
 echo "$subName" >> sgms_data/subjects/$subCode.sub
 echo "$subCredits" >> sgms_data/subjects/$subCode.sub
 echo "Subject file created successfully"
@@ -66,13 +65,87 @@ else
 fi
 }
 
+update_subject(){
+while true
+do
+	read -p "Enter subject code : " subCode
+	if [[ -z $subCode || ! $subCode =~ ^[A-Z]{2,5}[0-9]{2,4}$ ]]
+	then
+	echo "Invalid subject code, it must be 2–5 uppercase letters + 2–4 digits"
+	continue
+	fi
+	if [[ ! -f sgms_data/subjects/$subCode.sub ]]
+	then
+	echo "This subject doesn't exist"
+	continue
+	fi
+	break
+done
+echo "Code: $(sed -n '1p' sgms_data/subjects/$subCode.sub)"
+echo "Name: $(sed -n '2p' sgms_data/subjects/$subCode.sub)"
+echo "Credit Hours: $(sed -n '3p' sgms_data/subjects/$subCode.sub)"
+
+while true
+do
+read -p "Enter the field you want to update (name - credits) : " field
+if [[ ! $field == "name" && ! $field == "credits" ]]
+then
+echo "Invalid field"
+continue
+fi
+break
+done
+
+if [[ $field == "name" ]] 
+then
+while true
+do
+	read -p "Enter subject name: " newName
+	if [[ -z $newName ]]
+	then
+	echo "You should enter a name"
+	continue
+	fi
+	break
+done
+sed -i "2s/.*/$newName/" sgms_data/subjects/$subCode.sub
+echo "Subject name updated successfully"
+echo "Code: $(sed -n '1p' sgms_data/subjects/$subCode.sub)"
+echo "Name: $(sed -n '2p' sgms_data/subjects/$subCode.sub)"
+echo "Credit Hours: $(sed -n '3p' sgms_data/subjects/$subCode.sub)"
+
+elif [[ $field == "credits" ]] 
+then
+while true
+do
+	read -p "Enter subject credit hours: " newCredits
+	if [[ -z $newCredits ]]
+	then
+	echo "You should enter credit hours"
+	continue
+	fi
+	if [[ ! $newCredits =~ ^[1-6]$ ]]
+	then
+	echo "Subject credit hours must be a number from 1 to 6"
+	continue
+	fi
+	break
+done
+sed -i "3s/.*/$newCredits/" sgms_data/subjects/$subCode.sub
+echo "Subject credit hours updated successfully"
+echo "Code: $(sed -n '1p' sgms_data/subjects/$subCode.sub)"
+echo "Name: $(sed -n '2p' sgms_data/subjects/$subCode.sub)"
+echo "Credit Hours: $(sed -n '3p' sgms_data/subjects/$subCode.sub)"
+fi
+}
+
 delete_subject(){
 while true
 do 
 	read -p "Enter subject code you want to delete: " subCode
-	if [[ -z $subCode ]]
+	if [[ -z $subCode || ! $subCode =~ ^[A-Z]{2,5}[0-9]{2,4}$ ]]
 	then
-	echo "You should enter a code"
+	echo "Invalid subject code, it must be 2–5 uppercase letters + 2–4 digits"
 	continue
 	fi
 	if [[ ! -f sgms_data/subjects/$subCode.sub ]]
