@@ -1,10 +1,6 @@
 #! /usr/bin/bash
 
 add_subject(){
-<<<<<<< HEAD
-cd sgms_data/subjects
-=======
->>>>>>> 066c327cef415176d3c73888e1df00cf6c4d2416
 while true
 do
 	read -p "Enter subject code: " subCode
@@ -18,11 +14,7 @@ do
 	echo "Subject code must be 2–5 letters + 2–4 digits"
 	continue
 	fi
-<<<<<<< HEAD
-	if [[ -f $subCode.sub ]]
-=======
 	if [[ -f sgms_data/subjects/$subCode.sub ]]
->>>>>>> 066c327cef415176d3c73888e1df00cf6c4d2416
 	then
 	echo "This subject already exists"
 	continue
@@ -58,12 +50,6 @@ do
 done
 
 touch $subCode.sub
-<<<<<<< HEAD
-echo $subCode >> $subCode.sub
-echo $subName >> $subCode.sub
-echo $subCredits >> $subCode.sub
-cd ../..
-=======
 echo "$subCode" >> sgms_data/subjects/$subCode.sub
 echo "$subName" >> sgms_data/subjects/$subCode.sub
 echo "$subCredits" >> sgms_data/subjects/$subCode.sub
@@ -80,10 +66,6 @@ else
 fi
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<<< HEAD:SubjectManagement
-========
 delete_subject(){
 while true
 do 
@@ -105,8 +87,6 @@ rm sgms_data/subjects/$subCode.sub
 echo "Subject deleted successfully"
 }
 
->>>>>>>> 066c327cef415176d3c73888e1df00cf6c4d2416:SubjectManagement.sh
->>>>>>> 066c327cef415176d3c73888e1df00cf6c4d2416
 Subject_Management_Menu(){
 declare -a arr=("Add Subject" "List Subjects" "Update Subject" "Delete Subject" "Back to main menu")
 select choice in "${arr[@]}"
