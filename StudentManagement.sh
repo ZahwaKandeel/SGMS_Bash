@@ -15,7 +15,7 @@ do
 		List_Students
 			;;
 		"Update Student")
-			
+		Update_Student	
 			;;
 		"Delete Student")
 		Delete_Student	
@@ -90,6 +90,10 @@ List_Students(){
 	else
 		echo There is no saved students
 	fi
+}
+
+Update_Student(){
+
 }
 
 Delete_Student(){
