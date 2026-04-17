@@ -53,6 +53,7 @@ touch $subCode.sub
 echo "$subCode" >> sgms_data/subjects/$subCode.sub
 echo "$subName" >> sgms_data/subjects/$subCode.sub
 echo "$subCredits" >> sgms_data/subjects/$subCode.sub
+echo "Subject file created successfully"
 }
 
 list_subjects(){
