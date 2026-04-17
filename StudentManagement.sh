@@ -18,7 +18,7 @@ do
 			
 			;;
 		"Delete Student")
-			
+		Delete_Student	
 			;;
 		"Back to main menu")
 			break
@@ -62,9 +62,9 @@ done
 
 while true;do
 	read -p "Enter your academic year: " studYear
-	if [[ -z "$studYear" || ! "$studYear" =~ ^[1-6]$ ]];then
+		if [[ -z "$studYear" || ! "$studYear" =~ ^[1-6]$ ]];then
 		echo "Invalid Academic Year!"
-		continue
+	continue
 	fi
 	break
 done
@@ -90,4 +90,24 @@ List_Students(){
 	else
 		echo There is no saved students
 	fi
+}
+
+Delete_Student(){
+while true;do
+	read -p "Enter student id you want to delete: " studID
+	if [[ -z $studID || $studID =~ ^[A-Za-z] ]]
+	then
+		echo "Enter valid student id"
+		continue
+	fi
+	if [[ ! -f sgms_data/students/$studID.stu ]]
+	then
+		echo "That student id doesn't exist"
+		continue
+	fi
+	break
+done
+
+rm sgms_data/students/$studID.stu
+echo "Student deleted successfully"
 }
