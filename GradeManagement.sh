@@ -12,13 +12,13 @@ do
 		Assign_Grade_to_Student
 			;;
 		"Update Existing Grade")
-			update_grade
+		update_grade
 			;;
 		"Delete a Grade")
-		
+		Delete_Grade
 			;;
 		"View Grades by Subject")
-			view_grades_by_subject
+		view_grades_by_subject
 			;;
 		"View Grades by Student")
 			
@@ -66,35 +66,29 @@ done
 
 while true;do
 	read -p "Enter your score: " studScore
-	if [[ -z $studScore || ! $studScore =~ ^([1-9][0-9]?|100)$ ]];then
-	echo "Invalid! Score must be between 1 - 100 "
+	if [[ -z $studScore || ! $studScore =~ ^[0-9]+(\.[0-9]+)?$ ]];then
+	echo "Invalid! Score must be between 0 - 100 "
+	continue
+	fi
+	if awk "BEGIN {exit !($studScore > 100 || $studScore < 0 )}"
+	then
+	echo "Score must be between 0.0 and 100.0"
 	continue
 	fi
 	break
 done
 
-if (( $studScore >= 90 && $studScore <= 100 )); then
-	letter="A+"
-elif (( $studScore >= 85 )); then
-	letter="A"
-elif (( $studScore >= 80 )); then
-	letter="A-"
-elif (( $studScore >= 75 )); then
-	letter="B+"
-elif (( $studScore >= 70 )); then
-	letter="B"
-elif (( $studScore >= 65 )); then
-	letter="B-"
-elif (( $studScore >= 60 )); then
-	letter="C+"
-elif (( $studScore >= 55 )); then
-	letter="C"
-elif (( $studScore >= 50 )); then
-	letter="C-"
-elif (( $studScore >= 45 )); then
-	letter="D"
-else
-	letter="F"
+if awk "BEGIN {exit !($studScore >= 90)}"; then letter="A+"
+elif awk "BEGIN {exit !($studScore >= 85)}"; then letter="A"
+elif awk "BEGIN {exit !($studScore >= 80)}"; then letter="A-"
+elif awk "BEGIN {exit !($studScore >= 75)}"; then letter="B+"
+elif awk "BEGIN {exit !($studScore >= 70)}"; then letter="B"
+elif awk "BEGIN {exit !($studScore >= 65)}"; then letter="B-"
+elif awk "BEGIN {exit !($studScore >= 60)}"; then letter="C+"
+elif awk "BEGIN {exit !($studScore >= 55)}"; then letter="C"
+elif awk "BEGIN {exit !($studScore >= 50)}"; then letter="C-"
+elif awk "BEGIN {exit !($studScore >= 45)}"; then letter="D"
+else letter="F"
 fi
 
 echo "$studId|$studScore|$letter" >> "$file"
@@ -173,6 +167,10 @@ fi
 echo "Grade updated successfully"
 sed -i "s/^$studID|.*/$studID|$newScore|$newLetter/" sgms_data/grades/$subCode.grd
 grep "^$studID|" sgms_data/grades/$subCode.grd
+}
+
+Delete_Grade(){
+	
 }
 
 view_grades_by_subject(){
