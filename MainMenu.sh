@@ -3,6 +3,7 @@
 source ./StudentManagement.sh
 source ./SubjectManagement.sh
 source ./GradeManagement.sh
+source ./ReportsAndStatistics.sh
 
 echo Main Menu:
 
@@ -21,7 +22,7 @@ do
 		Grade_Management_Menu
 			;;
 		"Reports & Statistics")
-			
+		Report_and_Statistics_Menu
 			;;
 		"Exit")
 			break
