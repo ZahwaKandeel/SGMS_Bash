@@ -15,7 +15,7 @@ do
 			
 			;;
 		"Delete a Grade")
-			
+		
 			;;
 		"View Grades by Subject")
 			
@@ -101,3 +101,4 @@ echo "$studId|$studScore|$letter" >> "$file"
 
 echo "Student grade assigned successfully"
 }
+
