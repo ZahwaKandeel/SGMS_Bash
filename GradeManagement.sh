@@ -21,7 +21,7 @@ do
 		view_grades_by_subject
 			;;
 		"View Grades by Student")
-			
+		view_grades_by_student
 			;;
 		"Back to main menu")
 			break
@@ -231,7 +231,7 @@ do
 done
 subName=$(sed -n '2p' sgms_data/subjects/$subCode.sub)
 echo "=================================================="
-echo "           Grades for $subName ($subCode)"
+echo "         Grades for $subName (Code: $subCode)"
 echo "=================================================="
 printf "%-12s %-15s %-10s %-5s\n" "Student ID" "Student Name" "Score" "Grade"
 echo "--------------------------------------------------"
@@ -246,4 +246,47 @@ fi
 printf "%-12s %-15s %-10s %-5s\n" "$studID" "$studName" "$score" "$letter"
 done < sgms_data/grades/$subCode.grd 
 }
+
+view_grades_by_student(){
+while true
+do
+	read -p "Enter student ID: " studID
+	if [[ -z $studID || ! "$studID" =~ ^[0-9]{1,10}$ ]]
+	then
+	echo "Invalid student id, it must be number"
+	continue
+	fi
+	if [[ ! -f sgms_data/students/$studID.stu ]]
+	then
+	echo "This student doesn't exist"
+	continue
+	fi
+	break
+done
+studName=$(sed -n '2p' sgms_data/students/$studID.stu | cut -d'=' -f2)
+
+echo "=================================================="
+echo "         Grades for $studName (ID: $studID)"
+echo "=================================================="
+printf "%-15s %-15s %-10s %-5s\n" "Subject code" "Subject Name" "Score" "Grade"
+echo "--------------------------------------------------"
+found=0
+for file in sgms_data/grades/*.grd
+do
+	if grep -q "^$studID|" $file
+	then
+	subCode=$(echo $file | cut -d'/' -f3 | cut -d'.' -f1)
+	subName=$(sed -n '2p' sgms_data/subjects/$subCode.sub)
+	score=$(grep "^$studID|" $file | cut -d'|' -f2)
+	letter=$(grep "^$studID|" $file | cut -d'|' -f3)
+	printf "%-15s %-15s %-10s %-5s\n" "$subCode" "$subName" "$score" "$letter"
+	found=1
+	fi
+done
+if [[ $found -eq 0 ]]
+then
+echo "No grades for this student"
+fi
+}
+
 
