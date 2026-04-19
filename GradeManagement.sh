@@ -15,7 +15,7 @@ do
 			update_grade
 			;;
 		"Delete a Grade")
-			
+		
 			;;
 		"View Grades by Subject")
 			view_grades_by_subject
