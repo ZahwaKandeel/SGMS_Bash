@@ -18,7 +18,7 @@ do
 			
 			;;
 		"View Grades by Subject")
-			
+			view_grades_by_subject
 			;;
 		"View Grades by Student")
 			
@@ -174,3 +174,43 @@ echo "Grade updated successfully"
 sed -i "s/^$studID|.*/$studID|$newScore|$newLetter/" sgms_data/grades/$subCode.grd
 grep "^$studID|" sgms_data/grades/$subCode.grd
 }
+
+view_grades_by_subject(){
+while true
+do
+	read -p "Enter subject code : " subCode
+	if [[ -z $subCode || ! $subCode =~ ^[A-Z]{2,5}[0-9]{2,4}$ ]]
+	then
+	echo "Invalid subject code, it must be 2–5 uppercase letters + 2–4 digits"
+	continue
+	fi
+	if [[ ! -f sgms_data/subjects/$subCode.sub ]]
+	then
+	echo "This subject doesn't exist"
+	continue
+	fi
+	if [[ ! -f sgms_data/grades/$subCode.grd || ! -s sgms_data/grades/$subCode.grd ]]
+	then
+	echo "No grades for this subject"
+	continue
+	fi
+	break
+done
+subName=$(sed -n '2p' sgms_data/subjects/$subCode.sub)
+echo "=================================================="
+echo "           Grades for $subName ($subCode)"
+echo "=================================================="
+printf "%-12s %-15s %-10s %-5s\n" "Student ID" "Student Name" "Score" "Grade"
+echo "--------------------------------------------------"
+while IFS="|" read studID score letter
+do
+if [[ -f sgms_data/students/$studID.stu ]]
+then
+studName=$(sed -n '2p' sgms_data/students/$studID.stu | cut -d'=' -f2)
+else
+studName="--"
+fi
+printf "%-12s %-15s %-10s %-5s\n" "$studID" "$studName" "$score" "$letter"
+done < sgms_data/grades/$subCode.grd 
+}
+
