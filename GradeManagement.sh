@@ -170,7 +170,42 @@ grep "^$studID|" sgms_data/grades/$subCode.grd
 }
 
 Delete_Grade(){
-	
+while true;do
+	read -p "Enter subject to remove in its grade: " subCode
+	if [[ -z $subCode ]];then
+	echo "Invalid! Please enter subject code"
+	continue
+	fi
+	if [[ ! -f sgms_data/grades/$subCode.grd ]];then
+	echo "Subject doesn't exist"
+	continue
+	fi
+	break
+done
+
+while true;do
+	read -p "Enter student id you want to remove: " studId
+	if [[ -z $studId ]];then
+	echo "Invalid! Please enter student id"
+	continue
+	fi
+	if [[ ! -f sgms_data/students/$studId.stu ]];then
+	echo "Student doesn't exist"
+	continue
+	fi
+	break
+done
+
+file="./sgms_data/grades/$subCode.grd"
+
+while true;do
+	if [[ -f "$file" ]] && grep -q "^$studId|" "$file"; then
+	sed -i "/^$studId|/d" "$file"
+	echo "This student grade has been removed"
+	continue
+	fi
+	break
+done
 }
 
 view_grades_by_subject(){
