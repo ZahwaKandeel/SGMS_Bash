@@ -9,16 +9,16 @@ select option in "${options[@]}"
 do
 	case $option in 
 		"Student Transcript + GPA")
-		
+		Student_Transcript_GPA
 			;;
 		"Subject Statistics")
 		subject_statistics
 			;;
 		"Top Students by GPA")
-		
+		Top_Students_by_GPA
 			;;
 		"Failing Students Report")
-		
+		Failing_Students_Report
 			;;
 		"Full Grade Matrix")
 		full_grade_matrix
@@ -29,6 +29,92 @@ do
 esac
 
 done
+}
+
+Calculate_GPA(){
+    studID=$1
+    totalPoints=0
+    totalCredits=0
+
+    for subFile in sgms_data/subjects/*.sub
+    do
+        subCode=$(sed -n '1p' "$subFile")
+        credits=$(sed -n '3p' "$subFile")
+
+        gradeFile="sgms_data/grades/$subCode.grd"
+
+        if [[ -f "$gradeFile" ]]; then
+            line=$(grep "^$studID|" "$gradeFile")
+
+            if [[ -n "$line" ]]; then
+                letter=$(echo "$line" | cut -d'|' -f3)
+
+                case $letter in
+                    A+|A) points=4.0 ;;
+                    A-) points=3.7 ;;
+                    B+) points=3.3 ;;
+                    B) points=3.0 ;;
+                    B-) points=2.7 ;;
+                    C+) points=2.3 ;;
+                    C) points=2.0 ;;
+                    C-) points=1.7 ;;
+                    D) points=1.0 ;;
+                    F) points=0.0 ;;
+                esac
+
+                totalPoints=$(awk "BEGIN {print $totalPoints + ($points * $credits)}")
+                totalCredits=$(awk "BEGIN {print $totalCredits + $credits}")
+            fi
+        fi
+    done
+
+    if [[ $totalCredits != 0 ]]; then
+        awk "BEGIN {print $totalPoints / $totalCredits}"
+    else
+        echo "No grades for that student id"
+    fi
+}
+
+Student_Transcript_GPA(){
+while true;do
+	read -p "Enter student id: " studID
+	if [[ -z $studID ]];then
+	echo "Invalid! Please enter student id"
+	continue
+	fi
+	if [[ ! -f sgms_data/students/$studID.stu ]];then
+	echo "Student doesn't exist"
+	continue
+	fi
+	break
+done
+
+echo "=============================== Student Data ==============================="
+cat "sgms_data/students/$studID.stu"
+echo "================================ Transcript ================================"
+
+for subFile in sgms_data/subjects/*.sub
+do
+subCode=$(sed -n '1p' "$subFile")
+subName=$(sed -n '2p' "$subFile")
+credits=$(sed -n '3p' "$subFile")
+
+gradeFile="sgms_data/grades/$subCode.grd"
+
+if [[ -f "$gradeFile" ]]; then
+line=$(grep "^$studID|" "$gradeFile")
+	if [[ -n "$line" ]]; then
+	score=$(echo "$line" | cut -d'|' -f2)
+	letter=$(echo "$line" | cut -d'|' -f3)
+	echo "$subCode - $subName | Score : $score | Grade: $letter"
+	fi
+fi
+done
+
+echo "============================================================================"
+gpa=$(Calculate_GPA "$studID")
+echo "GPA: $gpa"
+echo "============================================================================"    
 }
 
 subject_statistics(){ 
@@ -76,6 +162,34 @@ print "Average Score:  " sum/count
 } ' sgms_data/grades/$subCode.grd 
 
 echo "=================================================="
+}
+
+Top_Students_by_GPA(){
+echo "=========================== Top Students by GPA ============================"
+for stuFile in sgms_data/students/*.stu
+do
+studID=$(basename "$stuFile" .stu)
+name=$(grep "^Name=" "$stuFile" | cut -d'=' -f2)
+gpa=$(Calculate_GPA "$studID")
+
+echo "$studID | $name | $gpa"
+done | sort -t'|' -k3 -nr
+}
+
+Failing_Students_Report(){
+    echo "===== Failing Students ====="
+
+    for stuFile in sgms_data/students/*.stu
+    do
+        studID=$(basename "$stuFile" .stu)
+        name=$(grep "^Name=" "$stuFile" | cut -d'=' -f2)
+
+        gpa=$(Calculate_GPA "$studID")
+
+        if [[ "$gpa" == "0" || "$gpa" == "0.00" ]]; then
+            echo "$studID | $name | GPA: $gpa"
+        fi
+    done
 }
 
 full_grade_matrix(){
