@@ -15,7 +15,7 @@ do
 		subject_statistics
 			;;
 		"Top Students by GPA")
-		
+		Top_Students_by_GPA
 			;;
 		"Failing Students Report")
 		
@@ -162,6 +162,18 @@ print "Average Score:  " sum/count
 } ' sgms_data/grades/$subCode.grd 
 
 echo "=================================================="
+}
+
+Top_Students_by_GPA(){
+echo "=========================== Top Students by GPA ============================"
+for stuFile in sgms_data/students/*.stu
+do
+studID=$(basename "$stuFile" .stu)
+name=$(grep "^Name=" "$stuFile" | cut -d'=' -f2)
+gpa=$(Calculate_GPA "$studID")
+
+echo "$studID | $name | $gpa"
+done | sort -t'|' -k3 -nr
 }
 
 full_grade_matrix(){
