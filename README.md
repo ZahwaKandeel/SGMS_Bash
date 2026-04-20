@@ -33,7 +33,7 @@ SGMS_Bash_Project/
 ## 🚀 How to Run
 
 ```bash
-bash MainMenu.sh
+bash sgms.sh
 ```
 
 ---
