@@ -19,11 +19,10 @@ SGMS is a Bash shell script project that supports full CRUD operations, input va
 SGMS_Bash_Project/
   ├── data/
   │   ├── grades/
-  │   ├── reports&statistics/
   │   ├── students/
   │   └── subjects/
   ├── GradeManagement.sh
-  ├── MainMenu.sh
+  ├── sgms.sh
   ├── README.md
   ├── Reports&Statistics.sh
   ├── StudentManagement.sh
@@ -33,7 +32,7 @@ SGMS_Bash_Project/
 ## 🚀 How to Run
 
 ```bash
-bash sgms.sh
+bash . ./sgms.sh
 ```
 
 ---
