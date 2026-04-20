@@ -21,7 +21,7 @@ do
 			
 			;;
 		"Full Grade Matrix")
-		
+		full_grade_matrix
 			;;
 		"Back to main menu")
 			break
@@ -77,3 +77,41 @@ print "Average Score:  " sum/count
 
 echo "=================================================="
 }
+
+full_grade_matrix(){
+echo "================================================================================="
+echo "                            Full Grade Matrix                     "
+echo "================================================================================="
+printf "%-12s %-20s %-10s"  "Student ID" "Student Name" "Year"
+declare -a subjects=()
+for sub in sgms_data/subjects/*.sub
+do
+	subCode=$(sed -n '1p' $sub)
+	subName=$(sed -n '2p' $sub)
+	printf "%-15s"  "$subName($subCode)"
+	subjects+=("$subCode")
+done
+echo
+echo "---------------------------------------------------------------------------------"
+for stu in sgms_data/students/*.stu
+do
+	studID=$(sed -n '1p' $stu | cut -d'=' -f2)
+	studName=$(sed -n '2p' $stu | cut -d'=' -f2)
+	studYear=$(sed -n '4p' $stu | cut -d'=' -f2)
+	printf "%-12s %-20s %-10s"  "$studID" "$studName" "$studYear"
+	
+	for subCode in "${subjects[@]}"
+	do
+		if grep -q "^$studID|" sgms_data/grades/$subCode.grd
+		then
+		score=$(grep "^$studID|" sgms_data/grades/$subCode.grd | cut -d'|' -f2)
+		letter=$(grep "^$studID|" sgms_data/grades/$subCode.grd | cut -d'|' -f3)
+		printf "%-15s" "$score($letter)"
+		else
+		printf "%-15s" "---"
+		fi
+	done
+	echo
+done
+}
+
