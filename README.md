@@ -40,7 +40,7 @@ bash MainMenu.sh
 
 ## 👥 Team Task Distribution
 
-### 👤 Zahwa Kandeel — Main Menu · Student Management · Grade Management
+### 👤 Zahwa Kandeel — Main Menu · Student Management · Grade Management · Reports & Statistics
 
 #### Main Menu (`MainMenu.sh`)
 - Application entry point and navigation loop
@@ -53,26 +53,30 @@ bash MainMenu.sh
 - Manage student records in `data/students/`
 
 #### Grade Management (`GradeManagement.sh`)
-- Assign, update, and delete grades
-- View grades by subject or by student
-- Validate score range and compute letter grades
-- Manage grade records in `data/grades/`
+- Assign Grade to Student (Validate score range and compute letter grades)
+- Delete grades
+
+#### Reports & Statistics (`Reports&Statistics.sh`)
+- Student Transcript + GPA calculation
+- Top students by GPA report
+- Failing students report
 
 ---
 
-### 👤 Nada Ayman — Subject Management · Reports & Statistics
+### 👤 Nada Ayman — Subject Management · Grade Management · Reports & Statistics
 
 #### Subject Management (`SubjectManagement.sh`)
 - Add, list, update, and delete subjects
 - Validate subject code format and credit hours
 - Manage subject records in `data/subjects/`
 
+#### Grade Management (`GradeManagement.sh`)
+- Update grades
+- View grades by subject
+- View grades by student 
+
 #### Reports & Statistics (`Reports&Statistics.sh`)
-- Student Transcript + GPA calculation
 - Subject statistics (averages, distributions)
-- Top students by GPA report
-- Failing students report
 - Full grade matrix view
-- Manage output in `data/reports&statistics/`
 
 ---
