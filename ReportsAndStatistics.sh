@@ -168,7 +168,7 @@ Top_Students_by_GPA(){
 echo "=========================== Top Students by GPA ============================"
 for stuFile in sgms_data/students/*.stu
 do
-studID=$(basename "$stuFile" .stu)
+studID=$(grep "^ID=" "$stuFile" | cut -d'=' -f2)
 name=$(grep "^Name=" "$stuFile" | cut -d'=' -f2)
 gpa=$(Calculate_GPA "$studID")
 
