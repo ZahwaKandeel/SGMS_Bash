@@ -233,7 +233,7 @@ subName=$(sed -n '2p' sgms_data/subjects/$subCode.sub)
 echo "=================================================="
 echo "         Grades for $subName (Code: $subCode)"
 echo "=================================================="
-printf "%-12s %-15s %-10s %-5s\n" "Student ID" "Student Name" "Score" "Grade"
+printf "%-12s %-20s %-10s %-5s\n" "Student ID" "Student Name" "Score" "Grade"
 echo "--------------------------------------------------"
 while IFS="|" read studID score letter
 do
@@ -243,7 +243,7 @@ studName=$(sed -n '2p' sgms_data/students/$studID.stu | cut -d'=' -f2)
 else
 studName="--"
 fi
-printf "%-12s %-15s %-10s %-5s\n" "$studID" "$studName" "$score" "$letter"
+printf "%-12s %-20s %-10s %-5s\n" "$studID" "$studName" "$score" "$letter"
 done < sgms_data/grades/$subCode.grd 
 }
 
@@ -268,7 +268,7 @@ studName=$(sed -n '2p' sgms_data/students/$studID.stu | cut -d'=' -f2)
 echo "=================================================="
 echo "         Grades for $studName (ID: $studID)"
 echo "=================================================="
-printf "%-15s %-15s %-10s %-5s\n" "Subject code" "Subject Name" "Score" "Grade"
+printf "%-15s %-20s %-10s %-5s\n" "Subject code" "Subject Name" "Score" "Grade"
 echo "--------------------------------------------------"
 found=0
 for file in sgms_data/grades/*.grd
@@ -279,7 +279,7 @@ do
 	subName=$(sed -n '2p' sgms_data/subjects/$subCode.sub)
 	score=$(grep "^$studID|" $file | cut -d'|' -f2)
 	letter=$(grep "^$studID|" $file | cut -d'|' -f3)
-	printf "%-15s %-15s %-10s %-5s\n" "$subCode" "$subName" "$score" "$letter"
+	printf "%-15s %-20s %-10s %-5s\n" "$subCode" "$subName" "$score" "$letter"
 	found=1
 	fi
 done

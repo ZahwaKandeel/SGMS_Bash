@@ -158,6 +158,7 @@ do
 done
 
 rm sgms_data/subjects/$subCode.sub
+rm sgms_data/grades/$subCode.grd
 echo "Subject deleted successfully"
 }
 
