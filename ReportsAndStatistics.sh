@@ -31,6 +31,50 @@ esac
 done
 }
 
+Calculate_GPA(){
+    studID=$1
+    totalPoints=0
+    totalCredits=0
+
+    for subFile in sgms_data/subjects/*.sub
+    do
+        subCode=$(sed -n '1p' "$subFile")
+        credits=$(sed -n '3p' "$subFile")
+
+        gradeFile="sgms_data/grades/$subCode.grd"
+
+        if [[ -f "$gradeFile" ]]; then
+            line=$(grep "^$studID|" "$gradeFile")
+
+            if [[ -n "$line" ]]; then
+                letter=$(echo "$line" | cut -d'|' -f3)
+
+                case $letter in
+                    A+|A) points=4.0 ;;
+                    A-) points=3.7 ;;
+                    B+) points=3.3 ;;
+                    B) points=3.0 ;;
+                    B-) points=2.7 ;;
+                    C+) points=2.3 ;;
+                    C) points=2.0 ;;
+                    C-) points=1.7 ;;
+                    D) points=1.0 ;;
+                    F) points=0.0 ;;
+                esac
+
+                totalPoints=$(awk "BEGIN {print $totalPoints + ($points * $credits)}")
+                totalCredits=$(awk "BEGIN {print $totalCredits + $credits}")
+            fi
+        fi
+    done
+
+    if [[ $totalCredits != 0 ]]; then
+        awk "BEGIN {print $totalPoints / $totalCredits}"
+    else
+        echo "No grades for that student id"
+    fi
+}
+
 subject_statistics(){ 
 while true 
 do read -p "Enter subject code : " subCode 
