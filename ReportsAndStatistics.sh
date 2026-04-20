@@ -9,7 +9,7 @@ select option in "${options[@]}"
 do
 	case $option in 
 		"Student Transcript + GPA")
-	
+		
 			;;
 		"Subject Statistics")
 	
@@ -18,7 +18,7 @@ do
 		
 			;;
 		"Failing Students Report")
-			
+		
 			;;
 		"Full Grade Matrix")
 		
@@ -30,3 +30,4 @@ esac
 
 done
 }
+
