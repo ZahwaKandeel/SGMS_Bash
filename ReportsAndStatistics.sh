@@ -9,7 +9,7 @@ select option in "${options[@]}"
 do
 	case $option in 
 		"Student Transcript + GPA")
-	
+		
 			;;
 		"Subject Statistics")
 		subject_statistics
@@ -18,7 +18,7 @@ do
 		
 			;;
 		"Failing Students Report")
-			
+		
 			;;
 		"Full Grade Matrix")
 		full_grade_matrix
