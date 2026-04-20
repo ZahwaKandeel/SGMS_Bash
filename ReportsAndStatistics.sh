@@ -18,7 +18,7 @@ do
 		Top_Students_by_GPA
 			;;
 		"Failing Students Report")
-		
+		Failing_Students_Report
 			;;
 		"Full Grade Matrix")
 		full_grade_matrix
@@ -174,6 +174,22 @@ gpa=$(Calculate_GPA "$studID")
 
 echo "$studID | $name | $gpa"
 done | sort -t'|' -k3 -nr
+}
+
+Failing_Students_Report(){
+    echo "===== Failing Students ====="
+
+    for stuFile in sgms_data/students/*.stu
+    do
+        studID=$(basename "$stuFile" .stu)
+        name=$(grep "^Name=" "$stuFile" | cut -d'=' -f2)
+
+        gpa=$(Calculate_GPA "$studID")
+
+        if [[ "$gpa" == "0" || "$gpa" == "0.00" ]]; then
+            echo "$studID | $name | GPA: $gpa"
+        fi
+    done
 }
 
 full_grade_matrix(){
