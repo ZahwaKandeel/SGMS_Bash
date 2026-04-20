@@ -177,19 +177,18 @@ done | sort -t'|' -k3 -nr
 }
 
 Failing_Students_Report(){
-    echo "===== Failing Students ====="
+echo "===== Failing Students ====="
 
-    for stuFile in sgms_data/students/*.stu
-    do
-        studID=$(basename "$stuFile" .stu)
-        name=$(grep "^Name=" "$stuFile" | cut -d'=' -f2)
+for stuFile in sgms_data/students/*.stu
+do
+studID=$(grep "^ID=" "$stuFile" | cut -d'=' -f2)
+name=$(grep "^Name=" "$stuFile" | cut -d'=' -f2)
+gpa=$(Calculate_GPA "$studID")
 
-        gpa=$(Calculate_GPA "$studID")
-
-        if [[ "$gpa" == "0" || "$gpa" == "0.00" ]]; then
-            echo "$studID | $name | GPA: $gpa"
-        fi
-    done
+if [[ "$gpa" == "0" || "$gpa" == "0.00" ]]; then
+echo "$studID | $name | GPA: $gpa"
+fi
+done
 }
 
 full_grade_matrix(){
